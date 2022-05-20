@@ -1,0 +1,19 @@
+title t0.6
+
+note over selain:
+Käyttäjä kirjoittaa note-kenttään 
+uuden muistiinpanon ja painaa "Tallenna".
+end note
+
+note over selain:
+Selain suorittaa tapahtumankäsittelijän,
+joka luo muistiinpanon, 
+piirtää muistiinpanot uudelleen
+ja lähettää muistiinpanon 
+palvelimelle JSON-muodossa.
+end note
+selain->palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+note over palvelin:  
+Palvelin vastaanottaa muistiinpanon 
+ja tallentaa sen.
+end note
