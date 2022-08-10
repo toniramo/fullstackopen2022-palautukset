@@ -1,3 +1,5 @@
+import CountryWeather from "./CountryWeather";
+
 const Country = ({ country }) => {
     return (
         <>
@@ -9,6 +11,7 @@ const Country = ({ country }) => {
                 {Object.values(country.languages).map(l => <li key={l}>{l}</li>)}
             </ul>
             <img src={country.flags.svg} height="200" alt="flag" />
+            <CountryWeather country={country}/>
         </>
     )
 }
