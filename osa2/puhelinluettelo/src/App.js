@@ -1,16 +1,14 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Persons from "./Persons"
 import Filter from "./Filter"
 import PersonForm from "./PersonForm"
+import personsService from "./services/Persons"
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [nameFilter, setNameFilter] = useState("");
-
-  const baseUrl = 'http://localhost:3001';
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -22,6 +20,7 @@ const App = () => {
       number: newNumber
     };
     setPersons(persons.concat(personObject));
+    personsService.add(personObject);
     setNewName("");
     setNewNumber("");
   }
@@ -39,8 +38,8 @@ const App = () => {
   }
 
   useEffect(() => {
-    axios
-      .get(`${baseUrl}/persons`)
+    personsService
+      .getAll()
       .then(response => setPersons(response.data));
   }, []);
 
