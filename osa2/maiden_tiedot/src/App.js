@@ -16,24 +16,19 @@ function App() {
 
   useEffect(() => {
     setCountriesToShow(
-      countries.reduce(
-        (list, country) => {
-          return (country.name.common.toLowerCase().includes(nameFilter)
-            ? list.concat(country)
-            : list);
-        }, []
-      )
-    )
+      countries.filter(c =>
+        c.name.common.toLowerCase().includes(nameFilter.toLowerCase()))
+    );
   }, [nameFilter, countries])
 
   const handleNameFilterChange = ((event) => {
-    setNameFilter(event.target.value.toLowerCase());
-  })
+    setNameFilter(event.target.value);
+  });
 
   return (
     <div>
-      <SearchBar onChange={handleNameFilterChange} value={nameFilter}/>
-      <SearchResult result={countriesToShow} />
+      <SearchBar onChange={handleNameFilterChange} value={nameFilter} />
+      <SearchResult result={countriesToShow} setNameFilter={setNameFilter} />
     </div>
   );
 }
