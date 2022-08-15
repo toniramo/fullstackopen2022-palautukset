@@ -12,15 +12,24 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
-    if (persons.map(p => p.name).includes(newName)) {
-      return (alert(`${newName} is already added to phonebook.`))
-    };
-    const personObject = {
-      name: newName,
-      number: newNumber
-    };
-    setPersons(persons.concat(personObject));
-    personsService.add(personObject);
+    const index = persons.findIndex(p => p.name === newName);
+    if (index >= 0) {
+      if (window.confirm(
+        `${newName} is already added to phonebook. 
+        Do you want to replace the old number with a new one?`)) {
+        const person = { ...persons[index], "number": newNumber }
+        personsService.update(person);
+        let updatedPersons = [...persons];
+        updatedPersons[index] = person;
+        setPersons(updatedPersons);
+      }
+    } else {
+      const person = { "name": newName, "number": newNumber };
+      personsService
+        .add(person)
+        .then(response =>
+          setPersons(persons.concat(response.data)));
+    }
     setNewName("");
     setNewNumber("");
   }
@@ -35,6 +44,13 @@ const App = () => {
 
   const handleNameFilterChange = (event) => {
     setNameFilter(event.target.value);
+  }
+
+  const handleDelete = (person) => {
+    if (window.confirm(`Are you sure you want to delete ${person.name}`)) {
+      personsService.del(person.id);
+      setPersons([...persons].filter(p => p.id !== person.id));
+    }
   }
 
   useEffect(() => {
@@ -61,6 +77,7 @@ const App = () => {
       <Persons
         persons={persons}
         filter={nameFilter}
+        handleButtonPress={handleDelete}
       />
     </div>
   )
