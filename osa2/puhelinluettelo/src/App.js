@@ -27,7 +27,8 @@ const App = () => {
             updatedPersons[index] = person;
             setPersons(updatedPersons);
             showNotification(`Updated information of ${newName}.`, "info");
-          });
+          })
+          .catch(() => handleError(person));
       }
     } else {
       const person = { "name": newName, "number": newNumber };
@@ -56,6 +57,15 @@ const App = () => {
     setNotification({ "message": null, "type": null })
   }
 
+  const handleError = (person) => {
+    showNotification(
+      `Information of ${person.name} has already been removed from server.`,
+      "error");
+    personsService
+      .getAll()
+      .then(response => setPersons(response.data));
+  }
+
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   }
@@ -70,10 +80,13 @@ const App = () => {
 
   const handleDelete = (person) => {
     if (window.confirm(`Are you sure you want to delete ${person.name}`)) {
-      personsService.del(person.id).then(() => {
-        setPersons([...persons].filter(p => p.id !== person.id));
-        showNotification(`Deleted ${person.name}.`, "info");
-      });
+      personsService
+        .del(person.id)
+        .then(() => {
+          setPersons([...persons].filter(p => p.id !== person.id));
+          showNotification(`Deleted ${person.name}.`, "info");
+        })
+        .catch(() => handleError(person));
     }
   }
 
