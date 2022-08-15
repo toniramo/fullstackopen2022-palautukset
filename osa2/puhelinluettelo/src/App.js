@@ -3,12 +3,14 @@ import Persons from "./Persons"
 import Filter from "./Filter"
 import PersonForm from "./PersonForm"
 import personsService from "./services/Persons"
+import Notification from "./Notification"
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [nameFilter, setNameFilter] = useState("");
+  const [notification, setNotification] = useState({ "message": null, "type": null });
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -18,20 +20,40 @@ const App = () => {
         `${newName} is already added to phonebook. 
         Do you want to replace the old number with a new one?`)) {
         const person = { ...persons[index], "number": newNumber }
-        personsService.update(person);
-        let updatedPersons = [...persons];
-        updatedPersons[index] = person;
-        setPersons(updatedPersons);
+        personsService
+          .update(person)
+          .then(() => {
+            let updatedPersons = [...persons];
+            updatedPersons[index] = person;
+            setPersons(updatedPersons);
+            showNotification(`Updated information of ${newName}.`, "info");
+          });
       }
     } else {
       const person = { "name": newName, "number": newNumber };
       personsService
         .add(person)
-        .then(response =>
-          setPersons(persons.concat(response.data)));
+        .then(response => {
+          setPersons(persons.concat(response.data));
+          showNotification(`Added ${newName}`, "info");
+        });
     }
     setNewName("");
     setNewNumber("");
+  }
+
+  const showNotification = (message, type) => {
+    setNotification({
+      "message": message,
+      "type": type
+    });
+    setTimeout(() => {
+      clearNotification();
+    }, 5000)
+  }
+
+  const clearNotification = () => {
+    setNotification({ "message": null, "type": null })
   }
 
   const handleNameChange = (event) => {
@@ -48,8 +70,10 @@ const App = () => {
 
   const handleDelete = (person) => {
     if (window.confirm(`Are you sure you want to delete ${person.name}`)) {
-      personsService.del(person.id);
-      setPersons([...persons].filter(p => p.id !== person.id));
+      personsService.del(person.id).then(() => {
+        setPersons([...persons].filter(p => p.id !== person.id));
+        showNotification(`Deleted ${person.name}.`, "info");
+      });
     }
   }
 
@@ -61,11 +85,12 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
       <Filter
         value={nameFilter}
         onChange={handleNameFilterChange}
       />
+      <h2>Add a new</h2>
       <PersonForm
         onSubmit={addPerson}
         nameValue={newName}
@@ -73,6 +98,7 @@ const App = () => {
         numberValue={newNumber}
         onNumberChange={handleNumberChange}
       />
+      <Notification message={notification.message} type={notification.type} />
       <h2>Numbers</h2>
       <Persons
         persons={persons}
