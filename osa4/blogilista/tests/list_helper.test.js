@@ -70,3 +70,26 @@ describe('author with most blogs', () => {
     expect(result).toBe(null);
   });
 });
+
+describe('author with most likes', () => {
+  test('when list has only one blog, equals author of that', () => {
+    const result = listHelper.mostLikes([blogs[4]]);
+    expect(result).toEqual({
+      author: 'Robert C. Martin',
+      likes: 0,
+    });
+  });
+
+  test('when list has many blogs, equals author with most blogs', () => {
+    const result = listHelper.mostLikes(blogs);
+    expect(result).toEqual({
+      author: 'Edsger W. Dijkstra',
+      likes: 17,
+    });
+  });
+
+  test('when list is empty, is null', () => {
+    const result = listHelper.mostLikes([]);
+    expect(result).toBe(null);
+  });
+});

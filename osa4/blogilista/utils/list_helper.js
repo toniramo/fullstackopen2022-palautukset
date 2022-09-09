@@ -25,9 +25,20 @@ const mostBlogs = (blogs) => {
   return { author: result[0], blogs: result[1] };
 };
 
+const mostLikes = (blogs) => {
+  if (!blogs.length) return null;
+  const groupedByAuthor = _.groupBy(blogs, ((blog) => blog.author));
+  // eslint-disable-next-line max-len
+  const mapped = _.mapValues(groupedByAuthor, (author) => _.sumBy(_.forIn(author, (o) => o), (o) => o.likes));
+  // eslint-disable-next-line max-len
+  const result = _.toPairs(mapped).reduce((pairWithMost, pair) => (pair[1] > pairWithMost[1] ? pair : pairWithMost));
+  return { author: result[0], likes: result[1] };
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
   mostBlogs,
+  mostLikes,
 };
