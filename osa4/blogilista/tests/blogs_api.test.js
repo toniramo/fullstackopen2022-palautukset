@@ -61,10 +61,10 @@ test('a valid blog can be added', async () => {
     .expect(201)
     .expect('Content-Type', /application\/json/);
 
-  const blogsAtTheEnd = await helper.blogsInDb();
+  const blogsAtEnd = await helper.blogsInDb();
 
-  expect(blogsAtTheEnd).toHaveLength(helper.initialBlogs.length + 1);
-  expect(blogsAtTheEnd).toEqual(
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+  expect(blogsAtEnd).toEqual(
     expect.arrayContaining([
       expect.objectContaining(helper.additionalBlogs[0]),
     ]),
@@ -103,6 +103,25 @@ test('a blog wihtout title cannot be added', async () => {
 
   const blogsAtTheEnd = await helper.blogsInDb();
   expect(blogsAtTheEnd).toHaveLength(helper.initialBlogs.length);
+});
+
+test('deletion of a blog succeeds with status code 204 if id is valid', async () => {
+  const blogsAtStart = await helper.blogsInDb();
+  const blogToDelete = blogsAtStart[0];
+
+  await api
+    .delete(`/api/blogs/${blogToDelete.id}`)
+    .expect(204);
+
+  const blogsAtEnd = await helper.blogsInDb();
+
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1);
+
+  expect(blogsAtEnd).toEqual(
+    expect.not.arrayContaining([
+      expect.objectContaining(blogToDelete),
+    ]),
+  );
 });
 
 afterAll(() => {
