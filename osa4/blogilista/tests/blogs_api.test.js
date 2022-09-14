@@ -48,6 +48,13 @@ test('specific blogs are not within returned blogs', async () => {
   });
 });
 
+test('returned blogs have id', async () => {
+  const blogs = (await api.get('/api/blogs')).body;
+  blogs.forEach((blog) => {
+    expect(blog.id).toBeDefined();
+  });
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
