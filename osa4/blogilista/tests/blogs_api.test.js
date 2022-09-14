@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const supertest = require('supertest');
 
 const app = require('../app');
+const { deleteOne } = require('../models/Blog');
 
 const api = supertest(app);
 
@@ -62,12 +63,27 @@ test('a valid blog can be added', async () => {
     .expect('Content-Type', /application\/json/);
 
   const blogsAtTheEnd = await helper.blogsInDb();
+
   expect(blogsAtTheEnd).toHaveLength(helper.initialBlogs.length + 1);
   expect(blogsAtTheEnd).toEqual(
     expect.arrayContaining([
       expect.objectContaining(helper.additionalBlogs[0]),
     ]),
   );
+});
+
+test('a blog without likes can be added', async () => {
+  const { likes, ...blogToBeAdded } = helper.additionalBlogs[1];
+  const response = await api
+    .post('/api/blogs')
+    .send(blogToBeAdded)
+    .expect(201)
+    .expect('Content-Type', /application\/json/);
+
+  const blogsAtTheEnd = await helper.blogsInDb();
+
+  expect(blogsAtTheEnd).toHaveLength(helper.initialBlogs.length + 1);
+  expect(response.body.likes).toBe(0);
 });
 
 afterAll(() => {
