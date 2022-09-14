@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const supertest = require('supertest');
 
 const app = require('../app');
-const { deleteOne } = require('../models/Blog');
 
 const api = supertest(app);
 
@@ -84,6 +83,26 @@ test('a blog without likes can be added', async () => {
 
   expect(blogsAtTheEnd).toHaveLength(helper.initialBlogs.length + 1);
   expect(response.body.likes).toBe(0);
+});
+
+test('a blog without url cannot be added', async () => {
+  await api
+    .post('/api/blogs')
+    .send({ author: 'Testaaja', title: 'Pieleen menevä testi', likes: 100 })
+    .expect(400);
+
+  const blogsAtTheEnd = await helper.blogsInDb();
+  expect(blogsAtTheEnd).toHaveLength(helper.initialBlogs.length);
+});
+
+test('a blog wihtout title cannot be added', async () => {
+  await api
+    .post('/api/blogs')
+    .send({ author: 'Testaaja', url: 'http://testi.osoite', likes: 100 })
+    .expect(400);
+
+  const blogsAtTheEnd = await helper.blogsInDb();
+  expect(blogsAtTheEnd).toHaveLength(helper.initialBlogs.length);
 });
 
 afterAll(() => {
