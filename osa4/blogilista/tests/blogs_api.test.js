@@ -1,4 +1,3 @@
-const { identity } = require('lodash');
 const mongoose = require('mongoose');
 const supertest = require('supertest');
 
@@ -53,6 +52,22 @@ test('returned blogs have id', async () => {
   blogs.forEach((blog) => {
     expect(blog.id).toBeDefined();
   });
+});
+
+test('a valid blog can be added', async () => {
+  await api
+    .post('/api/blogs')
+    .send(helper.additionalBlogs[0])
+    .expect(201)
+    .expect('Content-Type', /application\/json/);
+
+  const blogsAtTheEnd = await helper.blogsInDb();
+  expect(blogsAtTheEnd).toHaveLength(helper.initialBlogs.length + 1);
+  expect(blogsAtTheEnd).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining(helper.additionalBlogs[0]),
+    ]),
+  );
 });
 
 afterAll(() => {

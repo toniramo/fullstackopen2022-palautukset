@@ -1,3 +1,5 @@
+const Blog = require("../models/Blog");
+
 const initialBlogs = [
   {
     title: 'React patterns',
@@ -47,8 +49,14 @@ const deleteIds = (blogs) => {
   });
 };
 
+const blogsInDb = async () => {
+  const blogs = await Blog.find({});
+  return blogs;
+};
+
 module.exports = {
   initialBlogs,
   additionalBlogs,
   deleteIds,
+  blogsInDb,
 };
