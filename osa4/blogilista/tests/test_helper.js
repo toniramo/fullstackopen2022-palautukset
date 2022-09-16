@@ -54,9 +54,12 @@ const blogsInDb = async () => {
   return blogs.map((blog) => blog.toJSON());
 };
 
+const getBlogById = async (id) => (await Blog.findById(id)).toJSON();
+
 module.exports = {
   initialBlogs,
   additionalBlogs,
   deleteIds,
   blogsInDb,
+  getBlogById,
 };

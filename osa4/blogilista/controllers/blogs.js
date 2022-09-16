@@ -18,8 +18,26 @@ blogsRouter.post('/', async (request, response) => {
 });
 
 blogsRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndDelete(request.params.id);
-  response.status(204).end();
+  const deletedBlog = (await Blog.findByIdAndDelete(request.params.id));
+  return deletedBlog
+    ? response.status(204).end()
+    : response.status(404).send({ error: 'nonexisting id' });
+});
+
+blogsRouter.put('/:id', async (request, response) => {
+  const { body } = request;
+
+  const blog = {
+    author: body.author,
+    title: body.title,
+    url: body.url,
+    likes: body.likes,
+  };
+
+  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true });
+  return updatedBlog
+    ? response.json(updatedBlog)
+    : response.status(404).send({ error: 'nonexisting id' });
 });
 
 module.exports = blogsRouter;

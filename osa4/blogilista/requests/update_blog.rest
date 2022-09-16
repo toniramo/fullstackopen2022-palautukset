@@ -1,0 +1,8 @@
+PUT http://localhost:3003/api/blogs/6324638e05458b4b5e12b997
+Content-Type: application/json
+
+{
+  "title": "Testiblogi",
+  "url": "www.puten.blogi",
+  "likes": 1234
+}
