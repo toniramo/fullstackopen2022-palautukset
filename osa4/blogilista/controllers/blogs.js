@@ -1,7 +1,15 @@
 /* eslint-disable no-underscore-dangle */
 const blogsRouter = require('express').Router();
+const jwt = require('jsonwebtoken');
 const Blog = require('../models/blog');
 const User = require('../models/user');
+
+const getTokenFrom = (request) => {
+  const authorization = request.get('authorization');
+  return (authorization && authorization.toLowerCase().startsWith('bearer '))
+    ? authorization.substring(7)
+    : null;
+};
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 });
@@ -9,10 +17,13 @@ blogsRouter.get('/', async (request, response) => {
 });
 
 blogsRouter.post('/', async (request, response) => {
-  const user = await User.findOne({});
+  const token = getTokenFrom(request);
+  const decodedToken = jwt.verify(token, process.env.SECRET);
+
+  const user = await User.findById(decodedToken.id);
+
   const blog = new Blog({ ...request.body, user: user._id });
   const result = await blog.save();
-  console.log('result :>> ', result);
   user.blogs = user.blogs.concat(result._id);
   await user.save();
 

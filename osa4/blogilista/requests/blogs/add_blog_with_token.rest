@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3Rpa2F5dHRhamEzIiwiaWQiOiI2MzMyZTZlMWZlMWM5NDJjMjU2N2Y0ZDkiLCJpYXQiOjE2NjQyODUxODd9.Szdex1K33I0LwEMQzv2OBYoZPV7JvayVR7kdAuMQPhc
+
+{
+  "title": "Testiblogi",
+  "author": "Putte Plokkaaja",
+  "url": "www.puten.ploki.blog",
+  "likes": 123
+}
