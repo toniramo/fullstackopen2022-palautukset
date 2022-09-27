@@ -5,7 +5,7 @@ const app = require('../app');
 
 const api = supertest(app);
 
-const User = require('../models/User');
+const User = require('../models/user');
 const helper = require('./test_helper');
 
 beforeEach(async () => {
