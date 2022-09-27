@@ -1,4 +1,5 @@
 const morgan = require('morgan');
+const logger = require('./logger');
 
 morgan.token('req-body', (req) => (
   ['POST', 'PUT'].includes(req.method)
@@ -11,7 +12,18 @@ const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' });
 };
 
+const errorHandler = (error, request, response, next) => {
+  logger.error('error.message :>> ', error.message);
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformed id' });
+  } if (error.name === 'ValidationError') {
+    return response.status(400).send({ error: error.message });
+  }
+  return next(error);
+};
+
 module.exports = {
   requestLogger,
   unknownEndpoint,
+  errorHandler,
 };
