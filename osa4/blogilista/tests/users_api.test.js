@@ -30,7 +30,7 @@ describe('when there is initally users saved', () => {
       .expect('Content-Type', /application\/json/);
   });
 
-  test('a valid user can be created', async () => {
+  test('a valid user can be created', async () => {
     const user = {
       username: 'newuser',
       password: 'validpassword',

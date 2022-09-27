@@ -188,7 +188,7 @@ describe('updating blog', () => {
     await api
       .put(`/api/blogs/${blogToUpdate.id}`)
       .send({ likes: 'abc' })
-      .expect(500);
+      .expect(400);
 
     const blogAtEnd = await helper.getBlogById(blogToUpdate.id);
     expect(blogAtEnd).toEqual(blogToUpdate);
@@ -212,7 +212,7 @@ describe('updating blog', () => {
     await api
       .put('/api/blogs/invalidId')
       .send({ likes: 1 })
-      .expect(500);
+      .expect(400);
 
     const blogAtEnd = await helper.getBlogById(blogToUpdate.id);
     expect(blogAtEnd).toEqual(blogToUpdate);

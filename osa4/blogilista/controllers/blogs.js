@@ -8,11 +8,6 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
   const blog = new Blog(request.body);
-
-  if (['title', 'url'].some((field) => !request.body[field])) {
-    return response.status(400).send({ error: 'missing required fields' });
-  }
-
   const result = await blog.save();
   return response.status(201).json(result);
 });
