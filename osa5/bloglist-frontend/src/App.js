@@ -10,12 +10,20 @@ function App() {
 
   useEffect(() => {
     blogService.getAll().then((b) => setBlogs(b));
+    const storedUser = JSON.parse(window.localStorage.getItem('user'));
+    setUser(storedUser);
   }, []);
 
   const handleLogin = async (event, username, password) => {
     event.preventDefault();
     const loggedUser = await loginService.login(username, password);
     setUser(loggedUser);
+    window.localStorage.setItem('user', JSON.stringify(loggedUser));
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    window.localStorage.clear();
   };
 
   if (user === null) {
@@ -32,6 +40,9 @@ function App() {
       <p>
         {`${user.name} `}
         logged in.
+        <button type="button" onClick={handleLogout}>
+          Logout
+        </button>
       </p>
       <Blogs blogs={blogs} />
     </>
