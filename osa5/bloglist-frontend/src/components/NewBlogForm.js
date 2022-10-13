@@ -7,10 +7,15 @@ const NewBlogForm = ({ handleCreateNew }) => {
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
 
+  const addBlog = (event) => {
+    event.preventDefault();
+    handleCreateNew({ title, author, url });
+  };
+
   return (
     <form
       onSubmit={(event) => {
-        handleCreateNew(event, title, author, url);
+        addBlog(event);
         setTitle('');
         setAuthor('');
         setUrl('');

@@ -34,8 +34,7 @@ const App = () => {
     }, 5000);
   };
 
-  const handleLogin = async (event, username, password) => {
-    event.preventDefault();
+  const handleLogin = async (username, password) => {
     try {
       const loggedUser = await loginService.login(username, password);
       setUser(loggedUser);
@@ -56,22 +55,19 @@ const App = () => {
 
   const blogFormRef = useRef();
 
-  const handleCreateNew = async (event, title, author, url) => {
-    event.preventDefault();
+  const handleCreateNew = async (newBlog) => {
     blogFormRef.current.toggleVisibility();
     try {
-      const blog = { title, author, url };
-      const data = await blogService.createNew(blog);
-      const updatedBlogs = blogs.concat({ ...blog, id: data.id });
+      const id = (await blogService.createNew(newBlog)).id;
+      const updatedBlogs = blogs.concat({ ...newBlog, id });
       setBlogs(updatedBlogs);
-      showNotification(`A new blog ${title} by ${author} added.`, 'info');
+      showNotification(`A new blog ${newBlog.title} by ${newBlog.author} added.`, 'info');
     } catch (error) {
       if (error.name === 'AxiosError') {
         showNotification(error.response.data.error, 'error');
       }
     }
   };
-
 
   if (user === null) {
     return (
