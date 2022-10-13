@@ -1,8 +1,9 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState, useEffect, useRef } from 'react';
 import Blogs from './components/Blogs';
 import LoginForm from './components/LoginForm';
 import NewBlogForm from './components/NewBlogForm';
 import Notification from './components/Notification';
+import Togglable from './components/Togglable';
 import blogService from './services/blogs';
 import loginService from './services/login';
 
@@ -53,8 +54,11 @@ const App = () => {
     window.localStorage.clear();
   };
 
+  const blogFormRef = useRef();
+
   const handleCreateNew = async (event, title, author, url) => {
     event.preventDefault();
+    blogFormRef.current.toggleVisibility();
     try {
       const blog = { title, author, url };
       const data = await blogService.createNew(blog);
@@ -67,6 +71,7 @@ const App = () => {
       }
     }
   };
+
 
   if (user === null) {
     return (
@@ -88,8 +93,12 @@ const App = () => {
           Logout
         </button>
       </p>
-      <h2>Create new</h2>
-      <NewBlogForm handleCreateNew={handleCreateNew} />
+      <Togglable buttonLabel={'New blog'} ref={blogFormRef}>
+        <div>
+          <h2>Create new</h2>
+          <NewBlogForm handleCreateNew={handleCreateNew} />
+        </div>
+      </Togglable>
       <Blogs blogs={blogs} />
     </>
   );
