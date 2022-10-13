@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 import PropTypes from 'prop-types';
 
-function LoginForm({ handleLogin }) {
+const LoginForm = ({ handleLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -34,7 +34,7 @@ function LoginForm({ handleLogin }) {
       <button type="submit">Login</button>
     </form>
   );
-}
+};
 
 export default LoginForm;
 

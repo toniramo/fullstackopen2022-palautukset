@@ -6,7 +6,7 @@ import Notification from './components/Notification';
 import blogService from './services/blogs';
 import loginService from './services/login';
 
-function App() {
+const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
   const [notification, setNotification] = useState({
@@ -93,6 +93,6 @@ function App() {
       <Blogs blogs={blogs} />
     </>
   );
-}
+};
 
 export default App;

@@ -1,9 +1,7 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import Blog from './Blog';
-// import PropTypes from 'prop-types';
 
-function Blogs({ blogs }) {
+const Blogs = (blogs) => {
   return (
     <div>
       {blogs.map((blog) => (
@@ -11,10 +9,6 @@ function Blogs({ blogs }) {
       ))}
     </div>
   );
-}
+};
 
 export default Blogs;
-
-Blogs.propTypes = {
-  // blogs: PropTypes.objectOf(PropTypes.object()).isRequired,
-};
