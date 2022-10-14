@@ -16,7 +16,7 @@ const App = () => {
   });
 
   useEffect(() => {
-    blogService.getAll().then((b) => setBlogs(b));
+    blogService.getAll().then((blogs) => setBlogs(blogs));
     const storedUser = JSON.parse(window.localStorage.getItem('user'));
     if (storedUser) {
       setUser(storedUser);
