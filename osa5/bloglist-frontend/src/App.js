@@ -34,6 +34,12 @@ const App = () => {
     }, 5000);
   };
 
+  const handleError = (error) => {
+    if (error.name === 'AxiosError') {
+      showNotification(error.response.data.error, 'error');
+    }
+  };
+
   const handleLogin = async (username, password) => {
     try {
       const loggedUser = await loginService.login(username, password);
@@ -41,9 +47,7 @@ const App = () => {
       blogService.setToken(loggedUser.token);
       window.localStorage.setItem('user', JSON.stringify(loggedUser));
     } catch (error) {
-      if (error.name === 'AxiosError') {
-        showNotification(error.response.data.error, 'error');
-      }
+      handleError(error);
     }
   };
 
@@ -63,9 +67,23 @@ const App = () => {
       setBlogs(updatedBlogs);
       showNotification(`A new blog ${newBlog.title} by ${newBlog.author} added.`, 'info');
     } catch (error) {
-      if (error.name === 'AxiosError') {
-        showNotification(error.response.data.error, 'error');
-      }
+      handleError(error);
+    }
+  };
+
+  const handleLike = async (likedBlog) => {
+    likedBlog.likes += 1;
+    try {
+      await blogService.update({ ...likedBlog, user: likedBlog.user.id });
+      const updatedBlogs = blogs.map((blog) => {
+        if (blog.id === likedBlog.id) {
+          return likedBlog;
+        }
+        return blog;
+      });
+      setBlogs(updatedBlogs);
+    } catch(error) {
+      handleError(error);
     }
   };
 
@@ -95,7 +113,7 @@ const App = () => {
           <NewBlogForm handleCreateNew={handleCreateNew} />
         </div>
       </Togglable>
-      <Blogs blogs={blogs} />
+      <Blogs blogs={blogs} handleLike={handleLike} />
     </>
   );
 };

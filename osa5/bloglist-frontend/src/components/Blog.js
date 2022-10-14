@@ -1,6 +1,6 @@
 import { React, useState } from 'react';
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, handleLike }) => {
   const [fullView, setFullView] = useState(false);
 
   const toggleFullView = () => {
@@ -14,22 +14,28 @@ const Blog = ({ blog }) => {
     borderWidth: 1,
     marginBottom: 5
   };
+
+  const header = <><b>{blog.title}</b> by {blog.author}</>;
+
   if (fullView) {
     return (
       <div style={blogStyle}>
         <div>
-          <b>{blog.title}</b>
+          {header}
           <button onClick={toggleFullView}>Hide</button>
         </div>
         <div>url: {blog.url}</div>
-        <div>likes: {blog.likes}</div>
-        <div>author: {blog.author}</div>
+        <div>
+          likes: {blog.likes}
+          <button onClick={() => handleLike(blog)}>Like</button>
+        </div>
+        <div>added by: { blog.user ? blog.user.name : null }</div>
       </div>
     );
   }
   return(
     <div style={blogStyle}>
-      {`${blog.title} by ${blog.author}`}
+      {header}
       <button onClick={toggleFullView}>View</button>
     </div>
   );
