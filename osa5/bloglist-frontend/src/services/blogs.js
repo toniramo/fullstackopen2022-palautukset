@@ -31,11 +31,17 @@ const update = async (blog) => {
   return response.data;
 };
 
+const remove = async (blog) => {
+  const response = await axios.delete(`${baseUrl}/${blog.id}`, getConfig());
+  return response.data;
+};
+
 const blogService = {
   setToken,
   getAll,
   createNew,
   update,
+  remove
 };
 
 export default blogService;

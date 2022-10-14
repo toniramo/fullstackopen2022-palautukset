@@ -1,6 +1,6 @@
 import { React, useState } from 'react';
 
-const Blog = ({ blog, handleLike }) => {
+const Blog = ({ blog, handleLike, user, handleRemoveBlog }) => {
   const [fullView, setFullView] = useState(false);
 
   const toggleFullView = () => {
@@ -12,7 +12,21 @@ const Blog = ({ blog, handleLike }) => {
     paddingLeft: 2,
     border: 'solid',
     borderWidth: 1,
-    marginBottom: 5
+    marginBottom: 5,
+    padding: 5,
+  };
+
+  const removeButtonStyle = {
+    background: 'salmon',
+    border: 'solid',
+    borderWidth: 0.1,
+    display : blog.user.username === user.username ? '' : 'none'
+  };
+
+  const removeBlog = () => {
+    if (window.confirm(`Remove ${blog.title} by ${blog.author}?`)) {
+      handleRemoveBlog(blog);
+    }
   };
 
   const header = <><b>{blog.title}</b> by {blog.author}</>;
@@ -30,6 +44,9 @@ const Blog = ({ blog, handleLike }) => {
           <button onClick={() => handleLike(blog)}>Like</button>
         </div>
         <div>added by: { blog.user ? blog.user.name : null }</div>
+        <div>
+          <button style={removeButtonStyle} onClick={removeBlog}>Remove</button>
+        </div>
       </div>
     );
   }

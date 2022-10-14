@@ -62,8 +62,8 @@ const App = () => {
   const handleCreateNew = async (newBlog) => {
     blogFormRef.current.toggleVisibility();
     try {
-      const id = (await blogService.createNew(newBlog)).id;
-      const updatedBlogs = blogs.concat({ ...newBlog, id });
+      const createdBlog = await blogService.createNew(newBlog);
+      const updatedBlogs = blogs.concat(createdBlog);
       setBlogs(updatedBlogs);
       showNotification(`A new blog ${newBlog.title} by ${newBlog.author} added.`, 'info');
     } catch (error) {
@@ -83,6 +83,16 @@ const App = () => {
       });
       setBlogs(updatedBlogs);
     } catch(error) {
+      handleError(error);
+    }
+  };
+
+  const handleRemoveBlog = async (blogToRemove) => {
+    try {
+      await blogService.remove(blogToRemove);
+      const updatedBlogs = blogs.filter((blog) => blog.id !== blogToRemove.id);
+      setBlogs(updatedBlogs);
+    } catch (error) {
       handleError(error);
     }
   };
@@ -113,7 +123,12 @@ const App = () => {
           <NewBlogForm handleCreateNew={handleCreateNew} />
         </div>
       </Togglable>
-      <Blogs blogs={blogs} handleLike={handleLike} />
+      <Blogs
+        blogs={blogs}
+        handleLike={handleLike}
+        user={user}
+        handleRemoveBlog={handleRemoveBlog}
+      />
     </>
   );
 };
