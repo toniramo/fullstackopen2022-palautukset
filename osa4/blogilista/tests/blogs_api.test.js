@@ -259,7 +259,7 @@ describe('Blogs:', () => {
         .expect('Content-Type', /application\/json/))
         .body;
 
-      expect(updatedBlog).toEqual({ ...blogToUpdate, likes: 123 });
+      expect(updatedBlog).toMatchObject({ ...blogToUpdate, likes: 123 });
     });
 
     test('fails with a valid id and invalid number of likes', async () => {
@@ -314,7 +314,7 @@ describe('Blogs:', () => {
         .expect('Content-Type', /application\/json/))
         .body;
 
-      expect(updatedBlog).toEqual({ ...blogToUpdate, ...updatedFields });
+      expect(updatedBlog).toMatchObject({ ...blogToUpdate, ...updatedFields });
     });
   });
 });

@@ -16,6 +16,7 @@ blogsRouter.post('/', userExtractor, async (request, response) => {
   user.blogs = user.blogs.concat(result._id);
   await user.save();
 
+  await result.populate('user', { username: 1, name: 1 });
   return response.status(201).json(result);
 });
 
@@ -26,7 +27,7 @@ blogsRouter.delete('/:id', userExtractor, async (request, response) => {
   if (!blogToDelete) {
     response.status(404).send({ error: 'nonexisting id' });
   }
-  if (blogToDelete.user.toString() !== user.id.toString()) {
+  if (blogToDelete.user && blogToDelete.user.toString() !== user.id.toString()) {
     response.status(401).send({ error: 'blog user does not match with current user' });
   }
 
