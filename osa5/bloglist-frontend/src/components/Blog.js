@@ -33,7 +33,7 @@ const Blog = ({ blog, handleLike, user, handleRemoveBlog }) => {
 
   if (fullView) {
     return (
-      <div style={blogStyle} data-testid="blog-full-info">
+      <div style={blogStyle} data-testid="blog-all-info">
         <div>
           {header}
           <button onClick={toggleFullView}>Hide</button>
