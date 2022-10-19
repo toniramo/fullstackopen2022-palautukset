@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import Blog from './Blog';
 
 let container;
+let user;
 
 const testUser = {
   username: 'testuser',
@@ -20,8 +21,11 @@ const testBlog = {
   user: testUser,
 };
 
+const likeMock = jest.fn();
+
 beforeEach(() => {
-  container = render(<Blog blog={testBlog} user={testUser} />);
+  container = render(<Blog blog={testBlog} user={testUser} handleLike={likeMock}/>);
+  user = userEvent.setup();
 });
 
 describe('<Blog />', () => {
@@ -37,7 +41,6 @@ describe('<Blog />', () => {
   });
 
   test('renders all info when view button is clicked', async () => {
-    const user = userEvent.setup();
     const button = screen.getByText('View');
     await user.click(button);
 
@@ -47,5 +50,20 @@ describe('<Blog />', () => {
     expect(info).toContain(testBlog.url);
     expect(info).toContain(`likes: ${testBlog.likes}`);
     expect(info).toContain(testBlog.user.name);
+  });
+
+  test('calls handleLike twice if two likes are made', async () => {
+    const view = screen.getByText('View');
+    await user.click(view);
+
+    expect(likeMock.mock.calls).toHaveLength(0);
+
+    const like = screen.getByText('Like');
+
+    await user.click(like);
+    expect(likeMock.mock.calls).toHaveLength(1);
+
+    await user.click(like);
+    expect(likeMock.mock.calls).toHaveLength(2);
   });
 });
