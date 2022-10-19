@@ -33,7 +33,7 @@ const Blog = ({ blog, handleLike, user, handleRemoveBlog }) => {
 
   if (fullView) {
     return (
-      <div style={blogStyle}>
+      <div style={blogStyle} data-testid="blog-full-info">
         <div>
           {header}
           <button onClick={toggleFullView}>Hide</button>
@@ -51,7 +51,7 @@ const Blog = ({ blog, handleLike, user, handleRemoveBlog }) => {
     );
   }
   return(
-    <div style={blogStyle}>
+    <div style={blogStyle} data-testid="blog-header-only">
       {header}
       <button onClick={toggleFullView}>View</button>
     </div>
