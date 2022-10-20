@@ -24,7 +24,13 @@ mongoose
 app.use(cors());
 app.use(express.json());
 app.use(middleware.tokenExtractor);
-// app.use(middleware.userExtractor);
+
+if (process.env.NODE_ENV === 'test') {
+  // eslint-disable-next-line global-require
+  const testingRouter = require('./controllers/testing');
+  app.use('/api/testing', testingRouter);
+}
+
 app.use(middleware.requestLogger);
 
 app.use('/api/blogs', blogsRouter);
