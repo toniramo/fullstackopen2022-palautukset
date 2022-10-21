@@ -45,7 +45,7 @@ describe('Blog app', function() {
       cy.login({ username: 'timot', password: 'salainen123' });
     });
 
-    it.only('A blog can be created', function() {
+    it('A blog can be created', function() {
       cy.get('#blogs')
         .should('not.contain', 'Uusi ploki');
 
@@ -62,6 +62,58 @@ describe('Blog app', function() {
 
       cy.get('#blogs')
         .should('contain', 'Uusi ploki');
+    });
+
+    describe('and some blogs exists', function() {
+      let blog1, blog2, blog3;
+      beforeEach(function() {
+        blog1 = {
+          title: 'Blog1',
+          author: 'Author1',
+          url: 'url.1',
+          likes: 0
+        };
+
+        blog2 = {
+          title: 'Blog2',
+          author: 'Author2',
+          url: 'url.2',
+          likes: 3
+        };
+
+        blog3 = {
+          title: 'Blog3',
+          author: 'Author3',
+          url: 'url.3',
+          likes: 2
+        };
+
+        cy.addBlog(blog1);
+        cy.addBlog(blog2);
+        cy.addBlog(blog3);
+
+      });
+      it('blog can be liked', function() {
+        cy.get('#blogs')
+          .contains(blog1.title)
+          .siblings()
+          .contains('button', 'View')
+          .click();
+
+        cy.get('#blogs')
+          .contains(blog1.title)
+          .parent()
+          .parent()
+          .as('testBlog');
+
+        cy.get('@testBlog')
+          .contains(`likes: ${blog1.likes}`)
+          .contains('button', 'Like')
+          .click();
+
+        cy.get('@testBlog')
+          .contains(`likes: ${blog1.likes+1}`);
+      });
     });
   });
 });
