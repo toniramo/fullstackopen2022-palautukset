@@ -21,10 +21,32 @@ const NewBlogForm = ({ handleCreateNew }) => {
         setUrl('');
       }}
     >
-      <Input label="title" type="text" value={title} onChange={setTitle} />
-      <Input label="author" type="text" value={author} onChange={setAuthor} />
-      <Input label="url" type="text" value={url} onChange={setUrl} />
-      <button type="submit">Create</button>
+      <Input
+        label="title"
+        type="text"
+        value={title}
+        name="title"
+        onChange={setTitle}
+      />
+      <Input
+        label="author"
+        type="text"
+        value={author}
+        name="author"
+        onChange={setAuthor}
+      />
+      <Input
+        label="url"
+        type="text"
+        value={url}
+        name="url"
+        onChange={setUrl} />
+      <button
+        type="submit"
+        id="create-button"
+      >
+        Create
+      </button>
     </form>
   );
 };

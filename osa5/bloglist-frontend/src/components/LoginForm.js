@@ -1,5 +1,6 @@
 import { React, useState } from 'react';
 import PropTypes from 'prop-types';
+import Input from './Input';
 
 const LoginForm = ({ handleLogin }) => {
   const [username, setUsername] = useState('');
@@ -18,24 +19,20 @@ const LoginForm = ({ handleLogin }) => {
         setPassword('');
       }}
     >
-      <div>
-        username:
-        <input
-          type="text"
-          value={username}
-          name="username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password:
-        <input
-          type="password"
-          value={password}
-          name="password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
+      <Input
+        label="username"
+        type="text"
+        value={username}
+        name="username"
+        onChange={setUsername}
+      />
+      <Input
+        label="password"
+        type="password"
+        value={password}
+        name="password"
+        onChange={setPassword}
+      />
       <button type="submit" id="login-button">Login</button>
     </form>
   );

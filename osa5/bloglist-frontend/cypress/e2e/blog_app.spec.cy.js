@@ -39,4 +39,29 @@ describe('Blog app', function() {
       cy.get('html').should('not.contain', 'Timo Tonttu logged in.');
     });
   });
+
+  describe('When logged in', function() {
+    beforeEach(function() {
+      cy.login({ username: 'timot', password: 'salainen123' });
+    });
+
+    it.only('A blog can be created', function() {
+      cy.get('#blogs')
+        .should('not.contain', 'Uusi ploki');
+
+      cy.contains('button', 'New blog').click();
+      cy.get('input[name="title"]').type('Uusi ploki');
+      cy.get('input[name="author"]').type('Tuntematon kirjoittaja');
+      cy.get('input[name="url"]').type('uusi.ploki.foo');
+      cy.get('#create-button').click();
+
+      cy.get('.info')
+        .should('contain', 'A new blog Uusi ploki by Tuntematon kirjoittaja added.')
+        .and('have.css', 'color', 'rgb(0, 128, 0)')
+        .and('have.css', 'border-style', 'solid');
+
+      cy.get('#blogs')
+        .should('contain', 'Uusi ploki');
+    });
+  });
 });
