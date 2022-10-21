@@ -42,3 +42,17 @@ Cypress.Commands.add('addBlog', ( blog ) => {
     }
   }).then(() => cy.visit('http://localhost:3000'));
 });
+
+Cypress.Commands.add('viewBlog', (title) => {
+  cy.get('#blogs')
+    .contains(title)
+    .siblings()
+    .contains('button', 'View')
+    .click();
+
+  cy.get('#blogs')
+    .contains(title)
+    .parent()
+    .parent()
+    .as(title);
+});

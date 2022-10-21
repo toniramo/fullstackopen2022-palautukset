@@ -94,25 +94,35 @@ describe('Blog app', function() {
 
       });
       it('blog can be liked', function() {
-        cy.get('#blogs')
-          .contains(blog1.title)
-          .siblings()
-          .contains('button', 'View')
-          .click();
-
-        cy.get('#blogs')
-          .contains(blog1.title)
-          .parent()
-          .parent()
-          .as('testBlog');
-
-        cy.get('@testBlog')
+        cy.viewBlog(blog1.title)
           .contains(`likes: ${blog1.likes}`)
           .contains('button', 'Like')
           .click();
 
-        cy.get('@testBlog')
+        cy.get(`@${blog1.title}`)
           .contains(`likes: ${blog1.likes+1}`);
+      });
+
+      it('blog can be removed by user that has added it', function() {
+        cy.viewBlog(blog2.title)
+          .contains('button', 'Remove')
+          .click();
+
+        cy.get('#blogs')
+          .should('not.contain', blog2.title);
+      });
+
+      it('blog cannot be removed by user that has not added it', function() {
+        const user2 = {
+          name: 'Tonttu Toljanteri',
+          username:'tonttu',
+          password: 'joulupukki'
+        };
+        cy.request('POST', 'http://localhost:3003/api/users', user2);
+        cy.login(user2);
+        cy.viewBlog(blog2.title)
+          .contains('button', 'Remove')
+          .should('have.css', 'display', 'none');
       });
     });
   });
