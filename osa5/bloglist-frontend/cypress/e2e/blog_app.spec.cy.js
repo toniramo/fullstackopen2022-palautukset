@@ -124,6 +124,33 @@ describe('Blog app', function() {
           .contains('button', 'Remove')
           .should('have.css', 'display', 'none');
       });
+
+      it('blogs are ordered based on likes', function() {
+        cy.get('#blogs > div').eq(0).should('contain', blog2.title);
+        cy.get('#blogs > div').eq(1).should('contain', blog3.title);
+        cy.get('#blogs > div').eq(2).should('contain', blog1.title);
+
+        cy.viewBlog(blog3.title)
+          .contains('button', 'Like')
+          .click()
+          .click();
+
+        cy.get('#blogs > div').eq(0).should('contain', blog3.title);
+        cy.get('#blogs > div').eq(1).should('contain', blog2.title);
+        cy.get('#blogs > div').eq(2).should('contain', blog1.title);
+
+        cy.viewBlog(blog1.title)
+          .contains('button', 'Like')
+          .click()
+          .click()
+          .click()
+          .click()
+          .click();
+
+        cy.get('#blogs > div').eq(0).should('contain', blog1.title);
+        cy.get('#blogs > div').eq(1).should('contain', blog3.title);
+        cy.get('#blogs > div').eq(2).should('contain', blog2.title);
+      });
     });
   });
 });
