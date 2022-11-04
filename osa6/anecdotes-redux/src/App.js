@@ -11,10 +11,6 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializeAnecdotes())
-    /*anecdoteService
-    .getAll()
-    .then(anecdotes => orderByVotes(anecdotes))
-    .then((anecdotes => {dispatch(setAnecdotes(anecdotes))}))*/
   }, [dispatch])
 
   return (
