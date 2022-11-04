@@ -17,9 +17,7 @@ const AnecdoteList = () => {
 
   return (
     <>
-      {console.log(anecdotes)}
       {anecdotes
-      //.sort((a, b) => b.votes - a.votes)
       .filter(anecdote => anecdote.content.toLowerCase().includes(filter))
       .map(anecdote =>
         <div key={anecdote.id} style={{marginBottom:10}}>
