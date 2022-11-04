@@ -4,6 +4,7 @@ import { setNotification, clearNotification } from '../reducers/notificationRedu
 
 const AnecdoteList = () => {
   const anecdotes = useSelector(state => state.anecdotes)
+  const filter = useSelector(state => state.filter.toLowerCase())
   const dispatch = useDispatch()
 
   const voteAnecdote = ({ id, content }) => {
@@ -16,8 +17,10 @@ const AnecdoteList = () => {
 
   return (
     <>
-      {anecdotes.map(anecdote =>
-        <div key={anecdote.id}>
+      {anecdotes
+      .filter(anecdote => anecdote.content.toLowerCase().includes(filter))
+      .map(anecdote =>
+        <div key={anecdote.id} style={{marginBottom:10}}>
           <div>
             {anecdote.content}
           </div>
