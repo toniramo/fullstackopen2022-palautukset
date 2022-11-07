@@ -10,11 +10,11 @@ const Notification = (props) => {
     padding: 10,
     borderWidth: 1,
     marginBottom: 20,
-    display: props.notification ? '' : 'none'
+    display: props.notification.content ? '' : 'none'
   }
   return (
     <div style={style}>
-      {props.notification}
+      {props.notification.content}
     </div>
   )
 }
