@@ -7,3 +7,5 @@ Repo Helsingin yliopiston avoimen kurssin Full Stack Open 2022 (https://fullstac
 - [osa3](https://github.com/toniramo/fullstackopen2022-osa3)
 - [osa4](./osa4/blogilista)
 - [osa5](./osa5/bloglist-frontend)
+- [osa6](./osa6)
+
