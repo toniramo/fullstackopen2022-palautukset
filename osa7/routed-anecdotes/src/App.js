@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, Routes, Route, useMatch } from 'react-router-dom'
+import { Link, Routes, Route, useMatch, Navigate } from 'react-router-dom'
 
 const Menu = () => {
   const padding = {
@@ -51,6 +51,7 @@ const CreateNew = (props) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
+  const [submit, setSubmit] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -60,10 +61,12 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    setSubmit(true)
   }
 
   return (
     <div>
+      {submit && <Navigate replace to="/" />}
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -82,7 +85,6 @@ const CreateNew = (props) => {
       </form>
     </div>
   )
-
 }
 
 const Anecdote = ({ anecdote }) => {
@@ -91,6 +93,17 @@ const Anecdote = ({ anecdote }) => {
       <h2>{`${anecdote.content} by ${anecdote.author}`}</h2>
       <p>{`has ${anecdote.votes} votes`}</p>
       <p>for more info, see <a href={anecdote.info}>{anecdote.info}</a></p>
+    </div>
+  )
+}
+
+const Notification = ({ notification }) => {
+  if (notification === null) {
+    return null
+  }
+  return(
+    <div style={{topMargin: 20, bottomMargin: 20}}>
+      {notification}
     </div>
   )
 }
@@ -118,6 +131,10 @@ const App = () => {
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(`a new anecdote '${anecdote.content}' created!`)
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
   }
 
   const anecdoteById = (id) =>
@@ -143,6 +160,7 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
         <Menu />
+        <Notification notification={notification}/>
         <Routes>
           <Route 
             path="/"
