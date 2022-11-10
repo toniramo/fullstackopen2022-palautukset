@@ -65,7 +65,8 @@ const CreateNew = (props) => {
     setSubmit(true)
   }
 
-  const handleReset = () => {
+  const handleReset = (e) => {
+    e.preventDefault()
     content.reset()
     author.reset()
     info.reset()
@@ -78,15 +79,15 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input {...content} />
+          <input {...{...content, reset: null}} />
         </div>
         <div>
           author
-          <input {...author} />
+          <input {...{...author, reset: null}} />
         </div>
         <div>
           url for more info
-          <input {...info} />
+          <input {...{...info, reset: null}}/>
         </div>
         <button>create</button>
         <button onClick={handleReset}>reset</button>
