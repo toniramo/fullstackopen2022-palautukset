@@ -65,6 +65,12 @@ const CreateNew = (props) => {
     setSubmit(true)
   }
 
+  const handleReset = () => {
+    content.reset()
+    author.reset()
+    info.reset()
+  }
+
   return (
     <div>
       {submit && <Navigate replace to="/" />}
@@ -83,6 +89,7 @@ const CreateNew = (props) => {
           <input {...info} />
         </div>
         <button>create</button>
+        <button onClick={handleReset}>reset</button>
       </form>
     </div>
   )
