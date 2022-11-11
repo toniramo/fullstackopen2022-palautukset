@@ -1,19 +1,19 @@
 import { React, useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import Blogs from './components/Blogs';
 import LoginForm from './components/LoginForm';
 import NewBlogForm from './components/NewBlogForm';
 import Notification from './components/Notification';
 import Togglable from './components/Togglable';
+import { setNotification } from './reducers/notification';
 import blogService from './services/blogs';
 import loginService from './services/login';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState({
-    message: null,
-    type: null,
-  });
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -24,19 +24,9 @@ const App = () => {
     }
   }, []);
 
-  const showNotification = (message, type) => {
-    setNotification({
-      message,
-      type,
-    });
-    setTimeout(() => {
-      setNotification({ message: null, type: null });
-    }, 5000);
-  };
-
   const handleError = (error) => {
     if (error.name === 'AxiosError') {
-      showNotification(error.response.data.error, 'error');
+      dispatch(setNotification(error.response.data.error, 'error', 5));
     }
   };
 
@@ -65,10 +55,8 @@ const App = () => {
       const createdBlog = await blogService.createNew(newBlog);
       const updatedBlogs = blogs.concat(createdBlog);
       setBlogs(updatedBlogs);
-      showNotification(
-        `A new blog ${newBlog.title} by ${newBlog.author} added.`,
-        'info'
-      );
+      const { title, author } = newBlog;
+      dispatch(setNotification(`A new blog ${title} ${author && `by ${author}`} added.`));
     } catch (error) {
       handleError(error);
     }
@@ -104,7 +92,7 @@ const App = () => {
     return (
       <>
         <h2>Log in to application</h2>
-        <Notification message={notification.message} type={notification.type} />
+        <Notification />
         <LoginForm handleLogin={handleLogin} />
       </>
     );
@@ -112,7 +100,7 @@ const App = () => {
   return (
     <>
       <h2>Blogs</h2>
-      <Notification message={notification.message} type={notification.type} />
+      <Notification />
       <p>
         {`${user.name} `}
         logged in.
