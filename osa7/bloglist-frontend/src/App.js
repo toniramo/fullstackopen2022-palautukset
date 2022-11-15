@@ -5,8 +5,10 @@ import LoginForm from './components/LoginForm';
 import NewBlogForm from './components/NewBlogForm';
 import Notification from './components/Notification';
 import Togglable from './components/Togglable';
+import Users from './components/Users';
 import { createNewBlog, initializeBlogs } from './reducers/blog';
 import { retrieveStoredUser, logout } from './reducers/user';
+import { getAndSetUsers } from './reducers/users';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -15,6 +17,7 @@ const App = () => {
   useEffect(() => {
     dispatch(initializeBlogs());
     dispatch(retrieveStoredUser());
+    dispatch(getAndSetUsers());
   }, []);
 
   const blogFormRef = useRef();
@@ -48,6 +51,7 @@ const App = () => {
           Logout
         </button>
       </p>
+      <Users />
       <Togglable buttonLabel={'New blog'} ref={blogFormRef}>
         <div>
           <h2>Create new</h2>
