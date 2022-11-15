@@ -1,11 +1,13 @@
 import { React, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
 import Blogs from './components/Blogs';
 import LoginForm from './components/LoginForm';
 import NewBlogForm from './components/NewBlogForm';
 import Notification from './components/Notification';
 import Togglable from './components/Togglable';
 import Users from './components/Users';
+import User from './components/User';
 import { createNewBlog, initializeBlogs } from './reducers/blog';
 import { retrieveStoredUser, logout } from './reducers/user';
 import { getAndSetUsers } from './reducers/users';
@@ -31,6 +33,10 @@ const App = () => {
     dispatch(logout());
   };
 
+  /*<Routes>
+  <Route path={`/users/:id`} element={<div>tekstiä</div>} />
+</Routes>*/
+
   if (user === null) {
     return (
       <>
@@ -51,14 +57,22 @@ const App = () => {
           Logout
         </button>
       </p>
-      <Users />
-      <Togglable buttonLabel={'New blog'} ref={blogFormRef}>
-        <div>
-          <h2>Create new</h2>
-          <NewBlogForm handleCreateNew={handleCreateNew} />
-        </div>
-      </Togglable>
-      <Blogs />
+      <Routes>
+        <Route path="/users" element={<Users />} />
+        <Route path="/users/:id" element={<User />} />
+        <Route path="/" element={
+          <>
+            <Togglable buttonLabel={'New blog'} ref={blogFormRef}>
+              <div>
+                <h2>Create new</h2>
+                <NewBlogForm handleCreateNew={handleCreateNew} />
+              </div>
+            </Togglable>
+            <Blogs />
+          </>}
+        />
+      </Routes>
+
     </>
   );
 };
