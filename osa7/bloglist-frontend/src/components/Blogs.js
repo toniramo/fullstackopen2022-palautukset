@@ -1,19 +1,15 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import Blog from './Blog';
 
-const Blogs = ({ blogs, handleLike, user, handleRemoveBlog }) => {
+const Blogs = () => {
+  const blogs = useSelector(state => state.blogs);
   return (
     <div id="blogs">
       {[...blogs]
-        .sort((a, b) => b.likes - a.likes)
+        .sort((a, b) => a.likes > b.likes ? -1 : 1)
         .map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            handleLike={handleLike}
-            user={user}
-            handleRemoveBlog={handleRemoveBlog}
-          />
+          <Blog key={blog.id} blog={blog} />
         ))}
     </div>
   );

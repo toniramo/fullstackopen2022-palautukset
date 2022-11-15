@@ -1,6 +1,12 @@
 import { React, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { likeBlog, removeBlog } from '../reducers/blog';
 
-const Blog = ({ blog, handleLike, user, handleRemoveBlog }) => {
+const Blog = ({ blog }) => {
+  const dispatch = useDispatch();
+
+  const user = useSelector(state => state.user);
+
   const [fullView, setFullView] = useState(false);
 
   const toggleFullView = () => {
@@ -23,9 +29,13 @@ const Blog = ({ blog, handleLike, user, handleRemoveBlog }) => {
     display: blog.user.username === user.username ? '' : 'none',
   };
 
-  const removeBlog = () => {
+  const handleLike = () => {
+    dispatch(likeBlog(blog));
+  };
+
+  const handleRemove = () => {
     if (window.confirm(`Remove ${blog.title} by ${blog.author}?`)) {
-      handleRemoveBlog(blog);
+      dispatch(removeBlog(blog));
     }
   };
 
@@ -45,11 +55,11 @@ const Blog = ({ blog, handleLike, user, handleRemoveBlog }) => {
         <div>url: {blog.url}</div>
         <div>
           likes: {blog.likes}
-          <button onClick={() => handleLike(blog)}>Like</button>
+          <button onClick={handleLike}>Like</button>
         </div>
         <div>added by: {blog.user ? blog.user.name : null}</div>
         <div>
-          <button style={removeButtonStyle} onClick={removeBlog}>
+          <button style={removeButtonStyle} onClick={handleRemove}>
             Remove
           </button>
         </div>

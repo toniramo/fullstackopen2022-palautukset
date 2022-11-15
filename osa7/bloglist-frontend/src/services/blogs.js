@@ -11,7 +11,7 @@ const setToken = (newToken) => {
 const getConfig = () => {
   return {
     headers: {
-      Authorization: token,
+      Authorization: token
     },
   };
 };

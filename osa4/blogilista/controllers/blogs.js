@@ -47,7 +47,7 @@ blogsRouter.put('/:id', async (request, response) => {
 
   const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true });
   return updatedBlog
-    ? response.json(updatedBlog)
+    ? await updatedBlog.populate('user', { username: 1, name: 1 }) && response.json(updatedBlog)
     : response.status(404).send({ error: 'nonexisting id' });
 });
 
