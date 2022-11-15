@@ -17,7 +17,6 @@ export const getAndSetUsers = () => {
     try {
       const users = await usersService.getAll();
       dispatch(setUsers(users));
-      console.log(users);
     } catch (error) {
       handleError(error, dispatch);
     }
