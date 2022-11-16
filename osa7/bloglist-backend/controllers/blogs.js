@@ -51,4 +51,13 @@ blogsRouter.put('/:id', async (request, response) => {
     : response.status(404).send({ error: 'nonexisting id' });
 });
 
+blogsRouter.post('/:id/comments', userExtractor, async (request, response) => {
+  const blog = await Blog.findById(request.params.id);
+  blog.comments = blog.comments.concat(request.body.comment);
+  const result = await blog.save();
+
+  await result.populate('user', { username: 1, name: 1 });
+  return response.status(201).json(result);
+});
+
 module.exports = blogsRouter;

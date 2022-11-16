@@ -36,12 +36,18 @@ const remove = async (blog) => {
   return response.data;
 };
 
+const comment = async (blog, comment) => {
+  const response = await axios.post(`${baseUrl}/${blog.id}/comments`, { comment }, getConfig());
+  return response.data;
+};
+
 const blogService = {
   setToken,
   getAll,
   createNew,
   update,
   remove,
+  comment,
 };
 
 export default blogService;

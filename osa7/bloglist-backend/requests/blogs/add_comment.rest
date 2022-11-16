@@ -1,0 +1,6 @@
+POST http://localhost:3003/api/blogs/6332e93e12e2d3cd5f217710/comments
+Content-Type: application/json
+
+{
+  "comment": "Commenting without token."
+}
