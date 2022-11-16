@@ -11,6 +11,7 @@ import User from './components/User';
 import { createNewBlog, initializeBlogs } from './reducers/blog';
 import { retrieveStoredUser, logout } from './reducers/user';
 import { getAndSetUsers } from './reducers/users';
+import BlogView from './components/BlogView';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -32,10 +33,6 @@ const App = () => {
   const handleLogout = () => {
     dispatch(logout());
   };
-
-  /*<Routes>
-  <Route path={`/users/:id`} element={<div>tekstiä</div>} />
-</Routes>*/
 
   if (user === null) {
     return (
@@ -60,6 +57,7 @@ const App = () => {
       <Routes>
         <Route path="/users" element={<Users />} />
         <Route path="/users/:id" element={<User />} />
+        <Route path="/blogs/:id" element={<BlogView />} />
         <Route path="/" element={
           <>
             <Togglable buttonLabel={'New blog'} ref={blogFormRef}>

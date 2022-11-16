@@ -1,17 +1,20 @@
-import { React, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { likeBlog, removeBlog } from '../reducers/blog';
+import { React, /* useState */ } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+// import { likeBlog, removeBlog } from '../reducers/blog';
 
 const Blog = ({ blog }) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const user = useSelector(state => state.user);
+  // const user = useSelector(state => state.user);
 
-  const [fullView, setFullView] = useState(false);
+  //  const [fullView, setFullView] = useState(false);
 
+  /*
   const toggleFullView = () => {
     setFullView(!fullView);
   };
+  */
 
   const blogStyle = {
     paddingTop: 10,
@@ -22,6 +25,7 @@ const Blog = ({ blog }) => {
     padding: 5,
   };
 
+  /*
   const removeButtonStyle = {
     background: 'salmon',
     border: 'solid',
@@ -38,6 +42,7 @@ const Blog = ({ blog }) => {
       dispatch(removeBlog(blog));
     }
   };
+  */
 
   const header = (
     <>
@@ -45,12 +50,13 @@ const Blog = ({ blog }) => {
     </>
   );
 
+  /*
   if (fullView) {
     return (
       <div style={blogStyle} data-testid="blog-all-info">
         <div>
           {header}
-          <button onClick={toggleFullView}>Hide</button>
+          { <button onClick={toggleFullView}>Hide</button> }
         </div>
         <div>url: {blog.url}</div>
         <div>
@@ -66,10 +72,11 @@ const Blog = ({ blog }) => {
       </div>
     );
   }
+  */
   return (
     <div style={blogStyle} data-testid="blog-header-only">
-      {header}
-      <button onClick={toggleFullView}>View</button>
+      <Link to={`/blogs/${blog.id}`}>{header}</Link>
+      {/* <button onClick={toggleFullView}>View</button> */}
     </div>
   );
 };
