@@ -56,7 +56,7 @@ const BlogView = () => {
       <ul>
         {blog.comments.map(comment => {
           return (
-            <li key={`${comment}`}>
+            <li key={`${comment}_${Math.random()}` /*use random in case there are identical comments*/}>
               {comment}
             </li>
           );
