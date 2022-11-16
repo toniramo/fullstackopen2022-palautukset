@@ -12,6 +12,7 @@ import { createNewBlog, initializeBlogs } from './reducers/blog';
 import { retrieveStoredUser, logout } from './reducers/user';
 import { getAndSetUsers } from './reducers/users';
 import BlogView from './components/BlogView';
+import NavigationMenu from './components/NavigationMenu';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ const App = () => {
   }
   return (
     <>
+      <NavigationMenu />
       <h2>Blogs</h2>
       <Notification />
       <p>
