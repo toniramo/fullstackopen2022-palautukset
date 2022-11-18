@@ -8,4 +8,4 @@ Repo Helsingin yliopiston avoimen kurssin Full Stack Open 2022 (https://fullstac
 - [osa4](./osa4/blogilista)
 - [osa5](./osa5/bloglist-frontend)
 - [osa6](./osa6)
-
+- [osa7](./osa7)
