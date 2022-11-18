@@ -1,11 +1,12 @@
 import { React } from 'react';
 import PropTypes from 'prop-types';
+import { Input } from './StyledComponents';
 
-const Input = ({ label, type, value, name, onChange }) => (
+const InputField = ({ label, type, value, name, onChange }) => (
   <div>
     <label>
       {label}:
-      <input
+      <Input
         type={type}
         value={value}
         name={name}
@@ -15,9 +16,9 @@ const Input = ({ label, type, value, name, onChange }) => (
   </div>
 );
 
-export default Input;
+export default InputField;
 
-Input.propTypes = {
+InputField.propTypes = {
   label: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,

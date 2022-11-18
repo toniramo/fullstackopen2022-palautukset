@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../reducers/user';
+import { Menu, Button, StyledLink } from './StyledComponents';
 
 const NavigationMenu = () => {
   const user = useSelector(state => state.user);
@@ -14,26 +14,21 @@ const NavigationMenu = () => {
     padding: 5,
   };
 
-  const menuStyle = {
-    backgroundColor: 'lightgrey',
-    padding: 5,
-  };
-
   return (
-    <div style={menuStyle}>
-      <Link style={padding} to="/">Blogs</Link>
-      <Link style={padding} to="/users">Users</Link>
+    <Menu>
+      <StyledLink colortheme='light' to="/">Blogs</StyledLink>
+      <StyledLink colortheme='light' to="/users">Users</StyledLink>
       {user &&
       <>
         <span style={padding}>
           {user.name} logged in.
         </span>
-        <button type="button" onClick={handleLogout}>
+        <Button type="button" priority="secondary" onClick={handleLogout}>
         Logout
-        </button>
+        </Button>
       </>
       }
-    </div>
+    </Menu>
   );
 };
 

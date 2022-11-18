@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { StyledLink } from './StyledComponents';
 
 const Users = () => {
 
@@ -17,7 +17,7 @@ const Users = () => {
           {users.map(user => {
             return (
               <tr key={user.id}>
-                <td><Link to={`/users/${user.id}`}>{user.name}</Link></td>
+                <td><StyledLink style={{ fontWeight: 'normal' }} to={`/users/${user.id}`}>{user.name}</StyledLink></td>
                 <td>{user.blogs.length}</td>
               </tr>
             );

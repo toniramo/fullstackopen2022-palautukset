@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { likeBlog, removeBlog } from '../reducers/blog';
 import { useNavigate } from 'react-router-dom';
 import { commentBlog } from '../reducers/blog';
+import { Button } from '../components/StyledComponents';
 
 const BlogView = () => {
   const dispatch = useDispatch();
@@ -19,11 +20,6 @@ const BlogView = () => {
   };
 
   const removeButtonStyle = {
-    background: 'salmon',
-    border: 'solid',
-    borderWidth: 0.1,
-    bottomMargin: 20,
-    topMargin: 20,
     display: (blog && user) && blog.user.username === user.username ? '' : 'none',
   };
 
@@ -46,12 +42,12 @@ const BlogView = () => {
     <>
       <h2>{`${blog.title} ${blog.author && `by ${blog.auhor}`}`}</h2>
       <div>{blog.info}</div>
-      <div>{blog.likes} likes <button onClick={handleLike}>Like</button></div>
+      <div>{blog.likes} likes <Button onClick={handleLike}>Like</Button></div>
       <div>added by {blog.user.name}</div>
-      <div style={{ marginTop:20 }}><button style={removeButtonStyle} onClick={handleRemove}>Remove</button></div>
+      <div style={{ marginTop:20 }}><Button style={removeButtonStyle} priority="secondary" onClick={handleRemove}>Remove</Button></div>
       <h3>Comments</h3>
       <form onSubmit={handleComment}>
-        <input name="comment" onSubmit={() => this.value=''}/> <button type="submit">Add comment</button>
+        <input name="comment" onSubmit={() => this.value=''}/> <Button type="submit" priority="secondary">Add comment</Button>
       </form>
       <ul>
         {blog.comments.map(comment => {

@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
 import PropTypes from 'prop-types';
-import Input from './Input';
+import InputField from './InputField';
+import { Button } from './StyledComponents';
 
 const NewBlogForm = ({ handleCreateNew }) => {
   const [title, setTitle] = useState('');
@@ -21,24 +22,24 @@ const NewBlogForm = ({ handleCreateNew }) => {
         setUrl('');
       }}
     >
-      <Input
+      <InputField
         label="title"
         type="text"
         value={title}
         name="title"
         onChange={setTitle}
       />
-      <Input
+      <InputField
         label="author"
         type="text"
         value={author}
         name="author"
         onChange={setAuthor}
       />
-      <Input label="url" type="text" value={url} name="url" onChange={setUrl} />
-      <button type="submit" id="create-button">
+      <InputField label="url" type="text" value={url} name="url" onChange={setUrl} />
+      <Button type="submit" id="create-button">
         Create
-      </button>
+      </Button>
     </form>
   );
 };

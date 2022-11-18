@@ -16,3 +16,8 @@
   color: green;
   background: lightgreen;
 }
+
+.body {
+    padding: 0;
+    margin: 0;
+}

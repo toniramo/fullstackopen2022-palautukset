@@ -1,16 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Box, StyledLink } from './StyledComponents';
 
 const Blog = ({ blog }) => {
-
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5,
-    padding: 5,
-  };
 
   const header = (
     <>
@@ -19,9 +10,9 @@ const Blog = ({ blog }) => {
   );
 
   return (
-    <div style={blogStyle} data-testid="blog-header-only">
-      <Link to={`/blogs/${blog.id}`}>{header}</Link>
-    </div>
+    <Box data-testid="blog-header-only">
+      <StyledLink to={`/blogs/${blog.id}`}>{header}</StyledLink>
+    </Box>
   );
 };
 export default Blog;
